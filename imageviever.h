@@ -28,12 +28,15 @@ private:
     Ui::ImageViever *ui;
 
     QLabel* imageLabel;
-    QImage* image;
+    QImage* currentImage;
+
+    QString openedFilePath;
 
     QScrollArea * scrollArea;
 
 
 private slots:
     void openImage();
+    void saveAs();
 };
 #endif // IMAGEVIEVER_H
