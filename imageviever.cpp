@@ -21,6 +21,7 @@ ImageViever::ImageViever(QWidget *parent)
 
     QAction *open = new QAction("Open…", this);
     QAction *saveAs = new QAction("Save As…", this);
+    QAction *print = new QAction("Print image…", this);
     QAction *exit = new QAction("Exit", this);
 
     open->setShortcut(tr("CTRL+O"));
@@ -29,10 +30,12 @@ ImageViever::ImageViever(QWidget *parent)
     QMenu *file = menuBar()->addMenu("File");
     file->addAction(open);
     file->addAction(saveAs);
+    file->addAction(print);
     file->addAction(exit);
 
     connect(open, &QAction::triggered, this, &ImageViever::openImage);
     connect(saveAs, &QAction::triggered, this, &ImageViever::saveAs);
+    connect(print, &QAction::triggered, this, &ImageViever::print);
     connect(exit, &QAction::triggered, this, &QApplication::quit);
 
     QWidget *centralWidget = new QWidget;
@@ -56,7 +59,7 @@ void ImageViever::openImage()
     imageLabel->setPixmap(pixmap);
     imageLabel->resize(pixmap.size().width(), pixmap.size().height());
     scrollArea->setWidget(imageLabel);
-    this->resize(pixmap.size().width()+20, pixmap.size().height()+43);
+    this->resize(pixmap.size().width()+30, pixmap.size().height()+52);
 
 }
 
@@ -77,6 +80,25 @@ void ImageViever::saveAs()
     }
 }
 
+void ImageViever::print()
+{
+    if(openedFilePath.isEmpty())
+    {
+        return;
+    }
+
+    QPrinter printer;
+    QPrintDialog *dialog = new QPrintDialog(&printer, 0);
+
+    if(dialog->exec() == QDialog::Accepted) {
+        QImage img(openedFilePath);
+        QPainter painter(&printer);
+        painter.drawImage(0, 0, img);
+        painter.end();
+    }
+
+    delete dialog;
+}
 
 ImageViever::~ImageViever()
 {

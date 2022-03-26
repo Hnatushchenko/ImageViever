@@ -10,6 +10,9 @@
 #include <QMenuBar>
 #include <QPixmap>
 #include <QVBoxLayout>
+#include <QPrintDialog>
+#include <QPrinter>
+#include <QPainter>
 
 
 QT_BEGIN_NAMESPACE
@@ -38,5 +41,6 @@ private:
 private slots:
     void openImage();
     void saveAs();
+    void print();
 };
 #endif // IMAGEVIEVER_H
